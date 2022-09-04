@@ -9,6 +9,7 @@
                 <div class="form__footer">
                     <router-link to="/Login">Уже есть аккаунт?</router-link>
                 </div>
+                <p>{{succesRegister}}</p>
             </form>
         </div>
     </div>
@@ -27,7 +28,17 @@ export default {
     },
     methods: {
         ...mapActions(['GET_REGISTER']),
-    }
+    },
+    computed: {
+        succesRegister() {
+            this.$store.state.users.forEach(element => {
+                if(element.username == this.register.username) {
+                    this.$router.push('/Login')
+                }
+            });
+            return
+        }
+    },
 }
 </script>
 

@@ -5,7 +5,7 @@
             <form class="form">
                 <h3 class="form__title">Введите ссылку которую хотите сократить</h3>
                 <input class="form__field" type="text" v-model="dataLink.link">
-                <button class="form__btn" @click.prevent="GET_LINK(dataLink)">Отправить</button>
+                <button class="form__btn" @click.prevent="GET_LINK(dataLink), dataLink.link = null">Сократить</button>
             </form>
             <div class="list">
                 <form class="form home__form">
@@ -20,14 +20,14 @@
                             <input class="form__field" type="number" v-model="list.limit">
                         </label>
                     </div>
-                    <button class="form__btn" @click.prevent="GET_SHOW_LINKS(list), show = true">Показать список ссылок</button>
+                    <button class="form__btn" @click.prevent="GET_SHOW_LINKS(list), show = !show">{{show ? 'Скрыть и обновить список': 'Показать и обновить список ссылок'}}</button>
                 </form>
                 <div class="home__table">
                     <table class="table" v-if="show">
                         <tr>
                             <th>Сокращенная ссылка</th>
                             <th>Оригинал</th>
-                            <th>Количество переходов (нажать на кнопку "Показать список ссылок" для обновления, нужно чуть подождать)</th>
+                            <th>Количество переходов (нажать на кнопку "Скрыть и обновить список")</th>
                         </tr>
                         <tr v-for="item in LINKS" :key="item.id">
                             <td><a target="_blank" :href="item.minlink">{{ item.minlink }}</a></td>
@@ -55,7 +55,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                 },
                 list: {
                     offset: 0,
-                    limit: 10,
+                    limit: 0,
                 }
             }
         },

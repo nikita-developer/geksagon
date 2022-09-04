@@ -42,27 +42,31 @@ export default createStore({
                 return response.json();
             })
             .then((data) => {
-                data.username = payload.username
-                data.password = payload.password
-                context.commit('SET_REGISTER', data)
+                if(data.username == payload.username) {
+                    data.username = payload.username
+                    data.password = payload.password
+                    context.commit('SET_REGISTER', data)
+                }
             })
         },
 
         GET_LINK(context, payload) {
-            let request = fetch(`http://79.143.31.216/squeeze?link=${payload.link}`, {
-                method: "POST",
-                headers: {
-                    'Authorization': `${this.state.token_type} ${this.state.access_token}`,
-                    'accept': 'application/json',
-                },
-            });
-            request.then(response => {
-                return response.json();
-            })
-            .then((data) => {
-                data.minlink = 'http://79.143.31.216/s/'+data.short
-                if(data.short) return context.commit('SET_LINK', data)
-            })
+            if(payload.link) {
+                let request = fetch(`http://79.143.31.216/squeeze?link=${payload.link}`, {
+                    method: "POST",
+                    headers: {
+                        'Authorization': `${this.state.token_type} ${this.state.access_token}`,
+                        'accept': 'application/json',
+                    },
+                });
+                request.then(response => {
+                    return response.json();
+                })
+                .then((data) => {
+                    data.minlink = 'http://79.143.31.216/s/'+data.short
+                    if(data.short) return context.commit('SET_LINK', data)
+                })
+            }
         },
 
         GET_SHOW_LINKS(context, payload) {
@@ -121,7 +125,6 @@ export default createStore({
         },
 
         SET_LINK(state, payload) {
-            console.log(payload);
             for(let i = 0; i <= state.users.length; i++) {
                 if(state.users[i].username == state.username) {
                     state.users[i].links.push(payload)
@@ -132,20 +135,14 @@ export default createStore({
         },
 
         SET_SHOW_LINKS(state, payload) {
+            payload.forEach(element => {
+                element.minlink = 'http://79.143.31.216/s/'+element.short
+            })
             for(let i = 0; i < state.users.length; i++) {
                 if(state.users[i].username == state.username) {
-                    state.users[i].links.forEach((element, index) => {
-                        for(let k = 0; k < payload.length; k++) {
-                            if(element.short == payload[k].short) {
-                                state.users[i].links[index] = payload[k]
-                                state.links[index] = payload[k]
-                                state.links[index].minlink = 'http://79.143.31.216/s/'+payload[k].short
-                                return
-                            }
-                        }
-                    });
+                    state.users[i].links = payload
+                    state.links = payload
                 }
-                return
             }
         },
 

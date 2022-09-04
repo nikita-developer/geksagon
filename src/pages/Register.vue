@@ -1,14 +1,16 @@
 <template>
-    <div>
-        <h1>Регистрация</h1>
-        <form>
-            <input v-model="register.username" type="text" placeholder="Логин">
-            <input v-model="register.password" type="text" placeholder="Пароль">
-            <button @click.prevent="GET_REGISTER(register)" type="submit">Зарегаться</button>
-            <p>
-                <router-link to="/Login">Уже есть аккаунт?</router-link>
-            </p>
-        </form>
+    <div class="register">
+        <div class="register__body">
+            <h1 class="register__title">Регистрация</h1>
+            <form class="form">
+                <input class="form__field" v-model="register.username" type="text" placeholder="Логин">
+                <input class="form__field" v-model="register.password" type="text" placeholder="Пароль">
+                <button class="form__btn" @click.prevent="GET_REGISTER(register)" type="submit">Зарегистрироваться</button>
+                <div class="form__footer">
+                    <router-link to="/Login">Уже есть аккаунт?</router-link>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -31,4 +33,22 @@ export default {
 
 <style lang="scss" scoped>
 
+
+    .register {
+        display: flex;
+        flex-grow: 1;
+        background-color: #cec101;
+
+        &__body {
+            margin: auto;
+            padding: 30px;
+            background-color: #038f90;
+            min-width: 280px;
+        }
+
+        &__title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    }
 </style>

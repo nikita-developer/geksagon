@@ -32,22 +32,24 @@ export default createStore({
         },
 
         GET_REGISTER(context, payload) {
-            let request = fetch(`http://79.143.31.216/register?username=${payload.username}&password=${payload.password}`, {
-                headers: {
-                    'accept': 'application/json',
-                },
-                method: "POST",
-            });
-            request.then(response => {
-                return response.json();
-            })
-            .then((data) => {
-                if(data.username == payload.username) {
-                    data.username = payload.username
-                    data.password = payload.password
-                    context.commit('SET_REGISTER', data)
-                }
-            })
+            if(payload.username) {
+                let request = fetch(`http://79.143.31.216/register?username=${payload.username}&password=${payload.password}`, {
+                    headers: {
+                        'accept': 'application/json',
+                    },
+                    method: "POST",
+                });
+                request.then(response => {
+                    return response.json();
+                })
+                .then((data) => {
+                    if(data.username == payload.username) {
+                        data.username = payload.username
+                        data.password = payload.password
+                        context.commit('SET_REGISTER', data)
+                    }
+                })
+            }
         },
 
         GET_LINK(context, payload) {

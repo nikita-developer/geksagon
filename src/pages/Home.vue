@@ -48,7 +48,7 @@
                         <div class="table__row" v-for="item in all" :key="item.id">
                             <div class="table__col"><a target="_blank" :href="item.minlink">{{ item.minlink }}</a></div>
                             <div class="table__col"><a target="_blank" :href="item.target ">{{ item.target }}</a></div>
-                            <div class="table__col">{{ item.counter }}</div>
+                            <div class="table__col table__col--counter"><span>{{ item.counter }}</span> <button @click="GET_UPDATE_LINK(item.short)" class="table__btn">Обновить</button></div>
                         </div>
                     </div>
                 </div>
@@ -80,6 +80,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
         methods: {
             ...mapActions(['GET_LINK']),
             ...mapActions(['GET_SHOW_LINKS']),
+            ...mapActions(['GET_UPDATE_LINK']),
             ...mapMutations(['EXIT']),
             ...mapMutations(['SET_FILTERSEARCH']),
             exit() {
@@ -107,6 +108,9 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 </script>
 
 <style lang="scss" scoped>
+
+
+
 
     .home {
         display: flex;
@@ -181,6 +185,29 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             font-family: sans-serif;
             width: 33.333%;
             overflow-wrap: break-word;
+
+            &--counter {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        &__btn {
+            padding: 5px;
+            font-size: 12px;
+            background-color: #4b1e79;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #6221a3;
+            }
+
+            &:active {
+                transform: scale(.98);
+            }
         }
     }
 

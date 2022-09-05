@@ -85,7 +85,28 @@ export default createStore({
             .then((data) => {
                 context.commit('SET_SHOW_LINKS', data)
             })
-        }
+        },
+
+        GET_UPDATE_LINK(context, payload) {
+            let request = fetch(`http://79.143.31.216/statistics`, {
+                method: "GET",
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `${this.state.token_type} ${this.state.access_token}`,
+                },
+            });
+            request.then(response => {
+                return response.json();
+            })
+            .then((data) => {
+                data.forEach(el => {
+                    if(el.short == payload) {
+                        data = el
+                    }
+                })
+                context.commit('SET_UPDATE_LINK', data)
+            })
+        },
     },
     mutations: {
         SET_AUTH(state, payload) {
@@ -144,6 +165,23 @@ export default createStore({
                 if(state.users[i].username == state.username) {
                     state.users[i].links = payload
                     state.links = payload
+                }
+            }
+        },
+
+        SET_UPDATE_LINK(state, payload) {
+            for(let i = 0; i < state.users.length; i++) {
+                if(state.users[i].username == state.username) {
+                    state.users[i].links.forEach(el => {
+                        if(el.short == payload.short) {
+                            el.counter = payload.counter
+                        }
+                    })
+                    state.links.forEach(el => {
+                        if(el.short == payload.short) {
+                             el.counter = payload.counter
+                        }
+                    })
                 }
             }
         },

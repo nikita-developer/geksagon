@@ -30,11 +30,11 @@
                                 <input @keyup="search(LINKS, filterSearch)" v-model="filterSearch" type="text" class="form__field">
                             </label>
                             <label class="form__label">
-                                <p class="form__label-info">Тут скоро будет фильтр по количеству переходов</p>
-                                <select class="form__field">
+                                <p class="form__label-info">Фильтр по количеству переходов</p>
+                                <select @change="filterCounter(this.all, counterFilterText)" v-model="counterFilterText" class="form__field">
                                     <option selected disabled></option>
-                                    <option value="">По возрастанию</option>
-                                    <option value="">По убыванию</option>
+                                    <option value="По возрастанию">По возрастанию</option>
+                                    <option value="По убыванию">По убыванию</option>
                                 </select>
                             </label>
                         </div>
@@ -65,6 +65,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
     export default {
         data() {
             return {
+                counterFilterText: '',
                 filterSearch: '',
                 all: [],
                 show: false,
@@ -96,6 +97,13 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                 })
                 return this.all = myArray
             },
+            filterCounter(arr, param) {
+                if (param == 'По возрастанию') {
+                    arr.sort((a, b) => a.counter - b.counter).reverse()
+                } else if (param == 'По убыванию') {
+                    arr.sort((a, b) => a.counter - b.counter)
+                }
+            }
         },
         computed: {
             ...mapGetters(['LINKS']),
@@ -108,10 +116,6 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 </script>
 
 <style lang="scss" scoped>
-
-
-
-
     .home {
         display: flex;
         flex-grow: 1;

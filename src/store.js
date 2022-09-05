@@ -151,7 +151,7 @@ export default createStore({
             state.username = ""
             state.access_token = ""
             state.links = []
-        }
+        },
     },
     getters: {
         LINKS(state) {

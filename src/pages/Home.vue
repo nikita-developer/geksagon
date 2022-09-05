@@ -22,19 +22,35 @@
                     </div>
                     <button class="form__btn" @click.prevent="GET_SHOW_LINKS(list), show = !show">{{show ? 'Скрыть и обновить список': 'Показать и обновить список ссылок'}}</button>
                 </form>
-                <div class="home__table">
-                    <table class="table" v-if="show">
-                        <tr>
-                            <th>Сокращенная ссылка</th>
-                            <th>Оригинал</th>
-                            <th>Количество переходов (нажать на кнопку "Скрыть и обновить список")</th>
-                        </tr>
-                        <tr v-for="item in LINKS" :key="item.id">
-                            <td><a target="_blank" :href="item.minlink">{{ item.minlink }}</a></td>
-                            <td><a target="_blank" :href="item.target ">{{ item.target }}</a></td>
-                            <td>{{ item.counter }}</td>
-                        </tr>
-                    </table>
+                <div class="home__table" v-if="show">
+                    <!-- <form class="form form--table">
+                        <div class="form__group">
+                            <label class="form__label">
+                                <p class="form__label-info">Поиск</p>
+                                <input @keyup="search" v-model="filterSearch" type="text" class="form__field">
+                            </label>
+                            <label class="form__label">
+                                <p class="form__label-info">Сортировать по количеству переходов</p>
+                                <select class="form__field">
+                                    <option selected disabled></option>
+                                    <option value="">По возрастанию</option>
+                                    <option value="">По убыванию</option>
+                                </select>
+                            </label>
+                        </div>
+                    </form> -->
+                    <div class="table">
+                        <div class="table__row">
+                            <div class="table__th">Сокращенная ссылка</div>
+                            <div class="table__th">Оригинал</div>
+                            <div class="table__th">Количество переходов (нажать на кнопку "Скрыть и обновить список")</div>
+                        </div>
+                        <div class="table__row" v-for="item in LINKS" :key="item.id">
+                            <div class="table__col"><a target="_blank" :href="item.minlink">{{ item.minlink }}</a></div>
+                            <div class="table__col"><a target="_blank" :href="item.target ">{{ item.target }}</a></div>
+                            <div class="table__col">{{ item.counter }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="home__footer">
@@ -49,6 +65,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
     export default {
         data() {
             return {
+                all: [],
+                filterSearch: '',
                 show: false,
                 dataLink: {
                     link: null,
@@ -63,10 +81,11 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             ...mapActions(['GET_LINK']),
             ...mapActions(['GET_SHOW_LINKS']),
             ...mapMutations(['EXIT']),
+            ...mapMutations(['SET_FILTERSEARCH']),
             exit() {
                 this.EXIT()
                 this.$router.push('/login')
-            }
+            },
         },
         computed: {
             ...mapGetters(['LINKS']),
@@ -75,6 +94,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 </script>
 
 <style lang="scss" scoped>
+
     .home {
         display: flex;
         flex-grow: 1;
@@ -83,18 +103,16 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
         padding-left: 15px;
         padding-top: 60px;
         padding-bottom: 60px;
+        width: 100%;
 
         &__form {
             padding: 15px;
             border: 1px solid #fff;
         }
 
-        &__table {
-            overflow: auto;
-        }
-
         &__body {
             flex-grow: 1;
+            width: 100%;
         }
 
         &__title {
@@ -118,7 +136,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             border: 0;
             cursor: pointer;
             margin-bottom: 15px;
-        
+
             &:hover {
                 background-color: #a01513;
             }
@@ -126,30 +144,40 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
     }
 
     .table {
-        width: 100%;
         background-color: #fff;
 
-        th {
+        &__row {
+            display: flex;
+        }
+
+        &__th {
             background-color: #028e8f;
             color: #fff;
             padding: 10px;
             font-family: sans-serif;
             font-size: 12px;
+            width: 33.333%;
+            min-width: 200px;
         }
 
-        td {
-            padding: 10px; 
+        &__col {
+            min-width: 130px;
+            padding: 10px;
             border: 1px solid rgb(204, 204, 204);
             font-size: 12px;
             font-family: sans-serif;
+            width: 33.333%;
+            overflow-wrap: break-word;
         }
     }
 
     @media (max-width: 768px) {
-        .home {
-            &__table {
-                max-width: calc(100vw - 30px);
-            }
+        .table {
+            display: table;
+        }
+
+        .home__table {
+            overflow: auto;
         }
     }
 </style>

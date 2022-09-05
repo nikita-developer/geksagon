@@ -34,17 +34,21 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
-		min-width: 100vw;
 
 		&__body {
 			display: flex;
 			flex-grow: 1;
+			width: 100%;
 		}
 	}
 
 	.form {
 		display: flex;
 		flex-direction: column;
+
+		&--table {
+			margin-top: 30px;
+		}
 
 		&__title {
 			color: #fff;

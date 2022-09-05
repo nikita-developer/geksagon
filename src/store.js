@@ -23,7 +23,7 @@ export default createStore({
                 return response.json();
             })
             .then((data) => {
-                if(data.access_token) {
+                if(data.access_token.length && payload.username.length >= 4 && payload.password.length >= 4) {
                     data.username = payload.username
                     data.password = payload.password
                     context.commit('SET_AUTH', data)

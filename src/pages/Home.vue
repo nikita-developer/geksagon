@@ -46,7 +46,7 @@
                             <div class="table__th">Количество переходов (нажать на кнопку "Скрыть и обновить список")</div>
                         </div>
                         <div class="table__row" v-for="item in all" :key="item.id">
-                            <div class="table__col"><a target="_blank" :href="item.minlink">{{ item.minlink }}</a> <button @click="copy(item.minlink)" class="table__btn table__btn--copy">Копировать</button></div>
+                            <div class="table__col"><a target="_blank" :href="item.minlink">{{ item.minlink }}</a></div>
                             <div class="table__col"><a target="_blank" :href="item.target ">{{ item.target }}</a></div>
                             <div class="table__col table__col--counter"><span>{{ item.counter }}</span> <button @click="GET_UPDATE_LINK(item.short)" class="table__btn">Обновить</button></div>
                         </div>
@@ -104,9 +104,6 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
                     arr.sort((a, b) => a.counter - b.counter)
                 }
             },
-            copy(link) {
-                navigator.clipboard.writeText(link);
-            }
         },
         computed: {
             ...mapGetters(['LINKS']),
@@ -195,12 +192,6 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             width: 33.333%;
             overflow-wrap: break-word;
 
-            &:hover {
-                .table__btn--copy {
-                    opacity: 1;
-                }
-            }
-
             &--counter {
                 display: flex;
                 justify-content: space-between;
@@ -216,18 +207,6 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             border-radius: 5px;
             cursor: pointer;
 
-            &--copy {
-                opacity: 0;
-                position: absolute;
-                top: -1px;
-                right: -1px;
-                border: 0;
-                background-color: #028e8f;
-                border-radius: 0;
-                font-size: 10px;
-                transition: 0.3s;
-            }
-
             &:hover {
                 background-color: #6221a3;
             }
@@ -241,12 +220,6 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
     @media (max-width: 768px) {
         .table {
             display: table;
-
-            &__btn--copy {
-                opacity: 1;
-                top: auto;
-                bottom: -1px;
-            }
         }
 
         .home__table {

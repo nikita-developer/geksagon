@@ -20,7 +20,7 @@
                             <input class="form__field" type="number" v-model="list.limit">
                         </label>
                     </div>
-                    <button class="form__btn" @click.prevent="GET_SHOW_LINKS(list), show = !show, search(LINKS, filterSearch)">{{show ? 'Скрыть и обновить список': 'Показать и обновить список ссылок'}}</button>
+                    <button class="form__btn" @click.prevent="GET_SHOW_LINKS(list), show = !show">{{show ? 'Скрыть и обновить список': 'Показать и обновить список ссылок'}}</button>
                 </form>
                 <div class="home__table" v-if="show">
                     <form class="form form--table">
@@ -99,6 +99,10 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
         computed: {
             ...mapGetters(['LINKS']),
         },
+
+        watch: {
+            '$store.state.links': function () { this.search(this.$store.state.links, this.filterSearch) }
+        }
     }
 </script>
 

@@ -20,17 +20,17 @@
                             <input class="form__field" type="number" v-model="list.limit">
                         </label>
                     </div>
-                    <button class="form__btn" @click.prevent="GET_SHOW_LINKS(list), show = !show">{{show ? 'Скрыть и обновить список': 'Показать и обновить список ссылок'}}</button>
+                    <button class="form__btn" @click.prevent="GET_SHOW_LINKS(list), show = !show, search(LINKS, filterSearch)">{{show ? 'Скрыть и обновить список': 'Показать и обновить список ссылок'}}</button>
                 </form>
                 <div class="home__table" v-if="show">
-                    <!-- <form class="form form--table">
+                    <form class="form form--table">
                         <div class="form__group">
                             <label class="form__label">
                                 <p class="form__label-info">Поиск</p>
-                                <input @keyup="search" v-model="filterSearch" type="text" class="form__field">
+                                <input @keyup="search(LINKS, filterSearch)" v-model="filterSearch" type="text" class="form__field">
                             </label>
                             <label class="form__label">
-                                <p class="form__label-info">Сортировать по количеству переходов</p>
+                                <p class="form__label-info">Тут скоро будет фильтр по количеству переходов</p>
                                 <select class="form__field">
                                     <option selected disabled></option>
                                     <option value="">По возрастанию</option>
@@ -38,14 +38,14 @@
                                 </select>
                             </label>
                         </div>
-                    </form> -->
+                    </form>
                     <div class="table">
                         <div class="table__row">
                             <div class="table__th">Сокращенная ссылка</div>
                             <div class="table__th">Оригинал</div>
                             <div class="table__th">Количество переходов (нажать на кнопку "Скрыть и обновить список")</div>
                         </div>
-                        <div class="table__row" v-for="item in LINKS" :key="item.id">
+                        <div class="table__row" v-for="item in all" :key="item.id">
                             <div class="table__col"><a target="_blank" :href="item.minlink">{{ item.minlink }}</a></div>
                             <div class="table__col"><a target="_blank" :href="item.target ">{{ item.target }}</a></div>
                             <div class="table__col">{{ item.counter }}</div>
@@ -65,8 +65,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
     export default {
         data() {
             return {
-                all: [],
                 filterSearch: '',
+                all: [],
                 show: false,
                 dataLink: {
                     link: null,
@@ -85,6 +85,15 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
             exit() {
                 this.EXIT()
                 this.$router.push('/login')
+            },
+            search(arr, text) {
+                let myArray = []
+                arr.filter(element => {
+                    for (let key in element) {
+                        if (String(element[key]).toUpperCase().indexOf(text.toUpperCase()) !== -1) return myArray.push(element)
+                    }
+                })
+                return this.all = myArray
             },
         },
         computed: {

@@ -1,8 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Home from '@/pages/Home.vue'
-import Login from '@/pages/Login.vue'
-import Register from '@/pages/Register.vue'
-import store from '@/store.js'
+import Home from './pages/Home.vue'
+import Login from './pages/Login.vue'
+import Register from './pages/Register.vue'
+import store from './store.js'
 
 const router = createRouter({
     history: createWebHistory(),

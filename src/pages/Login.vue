@@ -16,7 +16,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+    import {
+        mapActions
+    } from 'vuex'
     export default {
         data() {
             return {
@@ -31,7 +33,7 @@ import { mapActions } from 'vuex'
         },
         computed: {
             redirect() {
-                if(this.$store.state.auth) {
+                if (this.$store.state.auth) {
                     this.$router.push('/')
                 }
                 return
